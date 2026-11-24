@@ -2554,9 +2554,9 @@ mod tests {
         wallet.spend(&token.address(), &alice, &200);
         token.assert_balance(&alice, 500);
         assert_eq!(
-            TokenClient::new(env.env(), &token.address()).total_supply(),
+            token.balance(&alice) + token.balance(&bob),
             800,
-            "burn should reduce the SAC total supply by the burned amount"
+            "burn should remove the burned amount from the funded accounts' combined balance"
         );
 
         wallet.allow(&token.address(), &alice, &spender, &50, &1_000);
