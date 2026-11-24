@@ -2553,6 +2553,11 @@ mod tests {
 
         wallet.spend(&token.address(), &alice, &200);
         token.assert_balance(&alice, 500);
+        assert_eq!(
+            TokenClient::new(env.env(), &token.address()).total_supply(),
+            800,
+            "burn should reduce the SAC total supply by the burned amount"
+        );
 
         wallet.allow(&token.address(), &alice, &spender, &50, &1_000);
         let allowance = TokenClient::new(env.env(), &token.address()).allowance(&alice, &spender);
